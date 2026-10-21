@@ -1,0 +1,12 @@
+numpy
+pandas
+matplotlib
+seaborn
+requests
+scikit-learn
+imbalanced-learn
+xgboost
+shap
+jupyter
+nbformat
+nbconvert

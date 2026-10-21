@@ -1,0 +1,17 @@
+{
+  "paper_doi": "10.1177/21501319251400546",
+  "dataset": "CDC BRFSS 2023 national public-use microdata; deterministic stratified paper-scale proxy n=5,634",
+  "split": "80:20 stratified, random_state=42",
+  "resampling": "SMOTE on training data only",
+  "test_set": "untouched",
+  "models": [
+    "Logistic Regression",
+    "SVM",
+    "KNN",
+    "Decision Tree",
+    "Random Forest",
+    "Gradient Boosting",
+    "XGBoost"
+  ],
+  "implementation_note": "Independent implementation from published methods. Paper uses Tennessee; this runnable version uses a stratified national proxy at paper scale because the public extract lacks state code."
+}

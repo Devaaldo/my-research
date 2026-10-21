@@ -1,0 +1,8 @@
+# Data and large artifacts are generated or downloaded, not committed.
+brfss_2023_selected.csv
+*.xpt
+*.XPT
+.ipynb_checkpoints/
+.venv/
+__pycache__/
+.DS_Store
