@@ -51,6 +51,12 @@ trade-off is the result — "best model" is metric-dependent.
 
 ## Limitations
 
+> **Recode bug in the replication notebook (found 2026-10-22).** BRFSS uses `888` (ALCDAY4) and
+> `88` (MENTHLTH/PHYSHLTH) for "none". The replication notebook treated them as missing and
+> mode-imputed them, so 44% of non-drinkers became `ALCDAY4 = 201` and 59% of respondents with zero
+> poor-mental-health days became `MENTHLTH = 30`. AUROC is unaffected; **the SHAP interpretation of
+> those two features in the replication is invalid.** Use feature set C in the ablation below.
+
 1. **Cohort is not Tennessee.** National stratified proxy at the paper's sample size.
 2. **No hyperparameter tuning, no cross-validation.** Deviates from the paper's grid search.
 3. **Categorical encoding of numeric BRFSS codes.** `ALCDAY4`, `MENTHLTH`, `PHYSHLTH` were one-hot
@@ -61,6 +67,23 @@ trade-off is the result — "best model" is metric-dependent.
 5. **Unweighted.** Results do not represent the US adult population.
 6. **Single holdout, no confidence intervals.** Metric differences under ~0.02 AUROC are not
    distinguishable at this test-set size.
+
+## Ablation: post-diagnosis leakage and encoding
+
+`ablation_brfss2023_leakage_encoding.ipynb` → `outputs_ablation/`. Same cohort, split, and SMOTE.
+
+| Set | Change | Features | GB AUROC (holdout) | GB AUROC (5-fold CV) |
+|---|---|---:|---:|---:|
+| A_paper | replication | 183 | 0.7808 | 0.7871 ± 0.0243 |
+| B_no_leakage | A minus 11 post-diagnosis proxies (Noh et al., 2026) | 161 | 0.7817 | 0.7714 ± 0.0245 |
+| C_ordinal | B with ALCDAY4/MENTHLTH/PHYSHLTH as days/month, 888/88 → 0 | 76 | **0.7877** | 0.7852 ± 0.0240 |
+
+- 21 DeLong tests (7 models × 3 pairs), Bonferroni-corrected: **no significant difference**.
+  GB A→B: Δ = −0.0009, p = 0.92.
+- Removing post-diagnosis proxies does not reduce discrimination; the model is not driven by leakage.
+- Set C reaches the same AUROC with 76 instead of 183 features, and its SHAP ranking is clinically
+  readable: cholesterol, general health, obesity, age group, alcohol days/month.
+- Logistic Regression on C: AUROC 0.7865, recall 0.7256 — the better screening candidate.
 
 ## Files
 

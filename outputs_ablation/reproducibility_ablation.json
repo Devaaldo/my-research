@@ -1,0 +1,105 @@
+{
+  "paper_doi": "10.1177/21501319251400546",
+  "reference_for_design": "10.1186/s12889-026-27570-3 (Noh et al. 2026, Model A/B post-diagnosis leakage)",
+  "dataset": "CDC BRFSS 2023 national public-use extract, deterministic stratified paper-scale proxy n=5,634",
+  "feature_sets": {
+    "A_paper": {
+      "categorical": [
+        "SEXVAR",
+        "_RACE",
+        "_AGEG5YR",
+        "EDUCA",
+        "_INCOMG1",
+        "INCOME3",
+        "EMPLOY1",
+        "MARITAL",
+        "_BMI5CAT",
+        "GENHLTH",
+        "BPHIGH6",
+        "TOLDHI3",
+        "HAVARTH4",
+        "CVDINFR4",
+        "CVDSTRK3",
+        "CVDCRHD4",
+        "EXERANY2",
+        "SMOKDAY2",
+        "_HLTHPL1",
+        "BLIND",
+        "DEAF",
+        "DECIDE",
+        "DIFFDRES",
+        "DIFFWALK",
+        "ALCDAY4",
+        "MENTHLTH",
+        "PHYSHLTH"
+      ],
+      "numeric": []
+    },
+    "B_no_leakage": {
+      "categorical": [
+        "SEXVAR",
+        "_RACE",
+        "_AGEG5YR",
+        "EDUCA",
+        "_INCOMG1",
+        "INCOME3",
+        "EMPLOY1",
+        "MARITAL",
+        "_BMI5CAT",
+        "GENHLTH",
+        "TOLDHI3",
+        "EXERANY2",
+        "SMOKDAY2",
+        "_HLTHPL1",
+        "ALCDAY4",
+        "MENTHLTH",
+        "PHYSHLTH"
+      ],
+      "numeric": []
+    },
+    "C_ordinal": {
+      "categorical": [
+        "SEXVAR",
+        "_RACE",
+        "_AGEG5YR",
+        "EDUCA",
+        "_INCOMG1",
+        "INCOME3",
+        "EMPLOY1",
+        "MARITAL",
+        "_BMI5CAT",
+        "GENHLTH",
+        "TOLDHI3",
+        "EXERANY2",
+        "SMOKDAY2",
+        "_HLTHPL1"
+      ],
+      "numeric": [
+        "alc_days_month",
+        "mental_days",
+        "physical_days"
+      ]
+    }
+  },
+  "dropped_post_diagnosis_proxies": [
+    "BPHIGH6",
+    "DIFFWALK",
+    "DEAF",
+    "BLIND",
+    "DECIDE",
+    "DIFFDRES",
+    "CVDINFR4",
+    "CVDSTRK3",
+    "CVDCRHD4",
+    "HAVARTH4",
+    "MEDCOST1"
+  ],
+  "split": "single 80:20 stratified split, random_state=42, identical rows across feature sets",
+  "resampling": "SMOTE inside the training fold only; test set never resampled",
+  "statistics": [
+    "DeLong (1988) AUROC test",
+    "McNemar continuity-corrected",
+    "5-fold stratified CV (GB)"
+  ],
+  "caveat": "Proxy cohort, not Tennessee. Ordinal recodes for ALCDAY4/MENTHLTH/PHYSHLTH are an interpretation of BRFSS codebook semantics, not verified against the paper."
+}

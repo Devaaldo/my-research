@@ -6,3 +6,4 @@ brfss_2023_selected.csv
 .venv/
 __pycache__/
 .DS_Store
+state.pkl
